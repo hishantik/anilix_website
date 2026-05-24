@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anilix — Terminal Anime Streaming</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<canvas id="three-canvas"></canvas>
+<div class="scanline-overlay"></div>
+
+<div class="content">
+
+<!-- ═══ HERO ══════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-glitch-line"></div>
+  <div class="hero-label">// terminal anime streaming client</div>
+
+  <svg class="hero-logo" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#00d4ff"/>
+        <stop offset="25%" stop-color="#6366f1"/>
+        <stop offset="50%" stop-color="#9d4edd"/>
+        <stop offset="75%" stop-color="#d946ef"/>
+        <stop offset="100%" stop-color="#f43f5e"/>
+      </linearGradient>
+      <linearGradient id="grad2" x1="100%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#f43f5e"/>
+        <stop offset="50%" stop-color="#00d4ff"/>
+        <stop offset="100%" stop-color="#9d4edd"/>
+      </linearGradient>
+      <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.9"/>
+        <stop offset="40%" stop-color="#9d4edd" stop-opacity="0.6"/>
+        <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.15"/>
+        <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#00d4ff"/>
+        <stop offset="30%" stop-color="#6366f1"/>
+        <stop offset="60%" stop-color="#d946ef"/>
+        <stop offset="100%" stop-color="#f43f5e"/>
+      </linearGradient>
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="shadow">
+        <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#9d4edd" flood-opacity="0.5"/>
+      </filter>
+      <style>
+        @keyframes orbit1 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes orbit2 { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+        @keyframes orbit3 { from { transform: rotate(120deg); } to { transform: rotate(480deg); } }
+        @keyframes pulse { 0%,100% { r: 5; opacity: 0.8; } 50% { r: 8; opacity: 1; } }
+        @keyframes dash { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -40; } }
+        @keyframes breathe { 0%,100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.15); opacity: 0.9; } }
+        @keyframes titlePulse { 0%,100% { filter: drop-shadow(0 0 6px #00d4ff); } 50% { filter: drop-shadow(0 0 20px #d946ef); } }
+        .orbit1 { transform-origin: 400px 400px; animation: orbit1 20s linear infinite; }
+        .orbit2 { transform-origin: 400px 400px; animation: orbit2 28s linear infinite; }
+        .orbit3 { transform-origin: 400px 400px; animation: orbit3 35s linear infinite; }
+        .node-pulse { animation: pulse 3s ease-in-out infinite; }
+        .line-dash { stroke-dasharray: 8 6; animation: dash 3s linear infinite; }
+        .breathe { animation: breathe 4s ease-in-out infinite; }
+        .title-anim { animation: titlePulse 3s ease-in-out infinite; }
+        .hover-node { transition: r 0.3s ease, filter 0.3s ease; cursor: pointer; }
+        .hover-node:hover { r: 18; filter: url(#glow); }
+        .link { transition: stroke-width 0.2s ease; }
+        .link:hover { stroke-width: 3; }
+      </style>
+    </defs>
+    <circle cx="400" cy="400" r="350" fill="url(#coreGlow)" class="breathe"/>
+    <g class="orbit1"><ellipse cx="400" cy="400" rx="310" ry="310" stroke="url(#grad)" stroke-width="1.5" opacity="0.25" fill="none" stroke-dasharray="4 8"/></g>
+    <g class="orbit2"><ellipse cx="400" cy="400" rx="250" ry="250" stroke="url(#grad2)" stroke-width="1" opacity="0.2" fill="none" stroke-dasharray="6 12"/></g>
+    <g class="orbit3"><ellipse cx="400" cy="400" rx="180" ry="180" stroke="url(#grad)" stroke-width="1.5" opacity="0.15" fill="none"/></g>
+    <g class="line-dash" opacity="0.4">
+      <line x1="400" y1="90" x2="668" y2="240" stroke="#6366f1" class="link"/>
+      <line x1="668" y1="240" x2="668" y2="560" stroke="#9d4edd" class="link"/>
+      <line x1="668" y1="560" x2="400" y2="710" stroke="#d946ef" class="link"/>
+      <line x1="400" y1="710" x2="132" y2="560" stroke="#f43f5e" class="link"/>
+      <line x1="132" y1="560" x2="132" y2="240" stroke="#d946ef" class="link"/>
+      <line x1="132" y1="240" x2="400" y2="90" stroke="#9d4edd" class="link"/>
+      <line x1="400" y1="220" x2="556" y2="300" stroke="#00d4ff" class="link"/>
+      <line x1="556" y1="300" x2="556" y2="500" stroke="#6366f1" class="link"/>
+      <line x1="556" y1="500" x2="400" y2="580" stroke="#9d4edd" class="link"/>
+      <line x1="400" y1="580" x2="244" y2="500" stroke="#d946ef" class="link"/>
+      <line x1="244" y1="500" x2="244" y2="300" stroke="#9d4edd" class="link"/>
+      <line x1="244" y1="300" x2="400" y2="220" stroke="#6366f1" class="link"/>
+      <line x1="400" y1="90" x2="400" y2="220" stroke="#6366f1" opacity="0.3" class="link"/>
+      <line x1="668" y1="240" x2="556" y2="300" stroke="#9d4edd" opacity="0.3" class="link"/>
+      <line x1="668" y1="560" x2="556" y2="500" stroke="#d946ef" opacity="0.3" class="link"/>
+      <line x1="400" y1="710" x2="400" y2="580" stroke="#f43f5e" opacity="0.3" class="link"/>
+      <line x1="132" y1="560" x2="244" y2="500" stroke="#d946ef" opacity="0.3" class="link"/>
+      <line x1="132" y1="240" x2="244" y2="300" stroke="#9d4edd" opacity="0.3" class="link"/>
+      <line x1="400" y1="220" x2="400" y2="400" stroke="#00d4ff" opacity="0.15"/>
+      <line x1="556" y1="300" x2="400" y2="400" stroke="#00d4ff" opacity="0.15"/>
+      <line x1="556" y1="500" x2="400" y2="400" stroke="#00d4ff" opacity="0.15"/>
+      <line x1="400" y1="580" x2="400" y2="400" stroke="#00d4ff" opacity="0.15"/>
+      <line x1="244" y1="500" x2="400" y2="400" stroke="#00d4ff" opacity="0.15"/>
+      <line x1="244" y1="300" x2="400" y2="400" stroke="#00d4ff" opacity="0.15"/>
+    </g>
+    <g class="breathe" opacity="0.3">
+      <circle cx="400" cy="90" r="20" fill="url(#nodeGlow)"/>
+      <circle cx="668" cy="240" r="20" fill="url(#nodeGlow)"/>
+      <circle cx="668" cy="560" r="20" fill="url(#nodeGlow)"/>
+      <circle cx="400" cy="710" r="20" fill="url(#nodeGlow)"/>
+      <circle cx="132" cy="560" r="20" fill="url(#nodeGlow)"/>
+      <circle cx="132" cy="240" r="20" fill="url(#nodeGlow)"/>
+    </g>
+    <g filter="url(#glow)">
+      <circle cx="400" cy="90" r="10" fill="#00d4ff" class="hover-node"/>
+      <circle cx="668" cy="240" r="10" fill="#6366f1" class="hover-node"/>
+      <circle cx="668" cy="560" r="10" fill="#9d4edd" class="hover-node"/>
+      <circle cx="400" cy="710" r="10" fill="#d946ef" class="hover-node"/>
+      <circle cx="132" cy="560" r="10" fill="#f43f5e" class="hover-node"/>
+      <circle cx="132" cy="240" r="10" fill="#d946ef" class="hover-node"/>
+    </g>
+    <g class="breathe" opacity="0.4" style="animation-delay: -2s;">
+      <circle cx="400" cy="220" r="16" fill="url(#nodeGlow)"/>
+      <circle cx="556" cy="300" r="16" fill="url(#nodeGlow)"/>
+      <circle cx="556" cy="500" r="16" fill="url(#nodeGlow)"/>
+      <circle cx="400" cy="580" r="16" fill="url(#nodeGlow)"/>
+      <circle cx="244" cy="500" r="16" fill="url(#nodeGlow)"/>
+      <circle cx="244" cy="300" r="16" fill="url(#nodeGlow)"/>
+    </g>
+    <g filter="url(#glow)">
+      <circle cx="400" cy="220" r="7" fill="#00d4ff" class="hover-node"/>
+      <circle cx="556" cy="300" r="7" fill="#6366f1" class="hover-node"/>
+      <circle cx="556" cy="500" r="7" fill="#9d4edd" class="hover-node"/>
+      <circle cx="400" cy="580" r="7" fill="#d946ef" class="hover-node"/>
+      <circle cx="244" cy="500" r="7" fill="#d946ef" class="hover-node"/>
+      <circle cx="244" cy="300" r="7" fill="#6366f1" class="hover-node"/>
+    </g>
+    <g opacity="0.6">
+      <circle cx="320" cy="160" r="3" fill="#00d4ff" class="node-pulse" style="animation-delay: 0s;"/>
+      <circle cx="600" cy="190" r="2.5" fill="#6366f1" class="node-pulse" style="animation-delay: -0.5s;"/>
+      <circle cx="700" cy="400" r="3" fill="#9d4edd" class="node-pulse" style="animation-delay: -1s;"/>
+      <circle cx="580" cy="640" r="2" fill="#d946ef" class="node-pulse" style="animation-delay: -1.5s;"/>
+      <circle cx="350" cy="680" r="3" fill="#f43f5e" class="node-pulse" style="animation-delay: -2s;"/>
+      <circle cx="160" cy="480" r="2.5" fill="#d946ef" class="node-pulse" style="animation-delay: -2.5s;"/>
+      <circle cx="200" cy="170" r="2" fill="#9d4edd" class="node-pulse" style="animation-delay: -0.8s;"/>
+      <circle cx="500" cy="130" r="2" fill="#00d4ff" class="node-pulse" style="animation-delay: -1.2s;"/>
+      <circle cx="680" cy="350" r="2.5" fill="#6366f1" class="node-pulse" style="animation-delay: -1.8s;"/>
+      <circle cx="480" cy="700" r="2" fill="#f43f5e" class="node-pulse" style="animation-delay: -0.3s;"/>
+      <circle cx="100" cy="380" r="3" fill="#00d4ff" class="node-pulse" style="animation-delay: -2.2s;"/>
+      <circle cx="260" cy="130" r="2" fill="#6366f1" class="node-pulse" style="animation-delay: -1.7s;"/>
+      <circle cx="540" cy="670" r="2.5" fill="#9d4edd" class="node-pulse" style="animation-delay: -0.6s;"/>
+      <circle cx="720" cy="520" r="2" fill="#d946ef" class="node-pulse" style="animation-delay: -2.8s;"/>
+      <circle cx="150" cy="600" r="2" fill="#f43f5e" class="node-pulse" style="animation-delay: -1.1s;"/>
+      <circle cx="650" cy="140" r="3" fill="#00d4ff" class="node-pulse" style="animation-delay: -0.4s;"/>
+    </g>
+    <circle cx="400" cy="400" r="95" fill="none" stroke="url(#grad)" stroke-width="2" opacity="0.3" class="breathe"/>
+    <circle cx="400" cy="400" r="80" fill="none" stroke="url(#grad)" stroke-width="1" opacity="0.15" class="breathe" style="animation-delay: -1s;"/>
+    <g class="title-anim" filter="url(#shadow)">
+      <text x="400" y="390" text-anchor="middle" font-family="'Orbitron', sans-serif" font-size="72" font-weight="900" letter-spacing="8" fill="url(#textGrad)">ANILIX</text>
+    </g>
+    <text x="400" y="430" text-anchor="middle" font-family="'Rajdhani', sans-serif" font-size="16" font-weight="400" letter-spacing="6" fill="#9d4edd" opacity="0.8">TERMINAL ANIME STREAMER</text>
+    <g font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600" letter-spacing="1" opacity="0.7">
+      <text x="400" y="70" text-anchor="middle" fill="#00d4ff">SEARCH</text>
+      <text x="695" y="235" text-anchor="start" fill="#6366f1">STREAM</text>
+      <text x="695" y="570" text-anchor="start" fill="#9d4edd">EXTRACT</text>
+      <text x="400" y="740" text-anchor="middle" fill="#d946ef">PLAYBACK</text>
+      <text x="105" y="570" text-anchor="end" fill="#f43f5e">CACHE</text>
+      <text x="105" y="235" text-anchor="end" fill="#d946ef">METADATA</text>
+    </g>
+    <g opacity="0.15">
+      <line x1="30" y1="30" x2="80" y2="30" stroke="#00d4ff" stroke-width="1"/>
+      <line x1="30" y1="30" x2="30" y2="80" stroke="#00d4ff" stroke-width="1"/>
+      <line x1="770" y1="30" x2="720" y2="30" stroke="#f43f5e" stroke-width="1"/>
+      <line x1="770" y1="30" x2="770" y2="80" stroke="#f43f5e" stroke-width="1"/>
+      <line x1="30" y1="770" x2="80" y2="770" stroke="#9d4edd" stroke-width="1"/>
+      <line x1="30" y1="770" x2="30" y2="720" stroke="#9d4edd" stroke-width="1"/>
+      <line x1="770" y1="770" x2="720" y2="770" stroke="#d946ef" stroke-width="1"/>
+      <line x1="770" y1="770" x2="770" y2="720" stroke="#d946ef" stroke-width="1"/>
+    </g>
+  </svg>
+
+  <p class="hero-subtitle">
+    Search anime. Browse episodes. Stream directly from your <span>terminal</span>.
+    <br>Cyberpunk-grade Go application with multi-provider intelligence.
+  </p>
+  <div class="hero-cta">
+    <a href="#install" class="btn btn-primary">Install Now</a>
+    <a href="#features" class="btn btn-ghost">Explore</a>
+  </div>
+  <div class="scroll-indicator">Scroll</div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ FEATURES ══════════════════════════════════ -->
+<section id="features">
+  <div class="section-header reveal">
+    <div class="section-tag">Capabilities</div>
+    <h2 class="section-title">Terminal <span>Superpowers</span></h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <span class="feature-index">01</span>
+      <span class="feature-icon">⬡</span>
+      <h3>Interactive TUI</h3>
+      <p>Two-column search layout with instant metadata preview. Navigate with vim keys, built on Bubble Tea v2's Elm architecture.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-index">02</span>
+      <span class="feature-icon">⟐</span>
+      <h3>Multi-provider Search</h3>
+      <p>Parallel search across Jikan and AniList APIs. Results merged with unified ranking for comprehensive coverage.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-index">03</span>
+      <span class="feature-icon">◈</span>
+      <h3>Quality Selection</h3>
+      <p>Cycle through presets: best, 1080p, 720p, 480p, 360p, auto. Adaptive streaming with instant quality switching.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-index">04</span>
+      <span class="feature-icon">◎</span>
+      <h3>Sub / Dub Toggle</h3>
+      <p>Switch between subtitled and dubbed versions on the fly with Ctrl+T. Seamless transition between audio tracks.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-index">05</span>
+      <span class="feature-icon">⏩</span>
+      <h3>Auto-Skip Intro / Outro</h3>
+      <p>AniSkip integration with mpv Lua script. Automatically jumps intros and outros using community-sourced timestamps.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-index">06</span>
+      <span class="feature-icon">⧉</span>
+      <h3>Multi-host Extraction</h3>
+      <p>Parallel stream extraction from 8+ hosts with priority fallback. First successful result wins with 500ms grace period.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-index">07</span>
+      <span class="feature-icon">⊞</span>
+      <h3>Android Proxy</h3>
+      <p>Local HTTP proxy for seamless playback on Termux/PRoot. Custom DNS resolution bypasses platform limitations.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-index">08</span>
+      <span class="feature-icon">◫</span>
+      <h3>Persistent Caching</h3>
+      <p>SQLite-backed ID mapping for instant repeated lookups. MAL ID to AllAnime ID resolution cached permanently.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ ARCHITECTURE ══════════════════════════════ -->
+<section id="architecture">
+  <div class="section-header reveal">
+    <div class="section-tag">System Design</div>
+    <h2 class="section-title">Data <span>Architecture</span></h2>
+  </div>
+  <div class="arch-flow">
+    <div class="arch-node reveal">
+      <div class="arch-box">
+        <h4>TUI / CLI</h4>
+        <p>Bubbletea v2 — Elm architecture state machine</p>
+        <div class="arch-arrow"></div>
+      </div>
+    </div>
+    <div class="arch-connector reveal"><span>▼</span></div>
+    <div class="arch-node reveal">
+      <div class="arch-box">
+        <h4>Source Interface</h4>
+        <p>Search() · SeasonsOf() · EpisodesOf() · StreamsOf()</p>
+        <div class="arch-arrow"></div>
+      </div>
+    </div>
+    <div class="arch-connector reveal"><span>▼</span></div>
+    <div class="arch-node reveal">
+      <div class="arch-box">
+        <h4>Providers</h4>
+        <p>Jikan (REST) + AniList (GraphQL) + AllAnime (GraphQL)</p>
+        <div class="arch-arrow"></div>
+      </div>
+    </div>
+    <div class="arch-connector reveal"><span>▼</span></div>
+    <div class="arch-node reveal">
+      <div class="arch-box">
+        <h4>AnimeLinker</h4>
+        <p>MAL ID → AllAnime ID · SQLite cached resolution</p>
+        <div class="arch-arrow"></div>
+      </div>
+    </div>
+    <div class="arch-connector reveal"><span>▼</span></div>
+    <div class="arch-node reveal">
+      <div class="arch-box">
+        <h4>Stream Extractors</h4>
+        <p>8 extractors · Parallel · AES-256-CTR decryption</p>
+        <div class="arch-arrow"></div>
+      </div>
+    </div>
+    <div class="arch-connector reveal"><span>▼</span></div>
+    <div class="arch-node reveal">
+      <div class="arch-box">
+        <h4>Player Launcher</h4>
+        <p>mpv · vlc · iina · mpv-android · vlc-android</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ TECH STACK ════════════════════════════════ -->
+<section id="tech">
+  <div class="section-header reveal">
+    <div class="section-tag">Built With</div>
+    <h2 class="section-title">Tech <span>Stack</span></h2>
+  </div>
+  <div class="tech-grid">
+    <div class="tech-item reveal">
+      <div class="tech-name">Go 1.25</div>
+      <div class="tech-role">Language & Runtime</div>
+    </div>
+    <div class="tech-item reveal">
+      <div class="tech-name">Cobra</div>
+      <div class="tech-role">CLI Framework</div>
+    </div>
+    <div class="tech-item reveal">
+      <div class="tech-name">Bubbletea v2</div>
+      <div class="tech-role">TUI Framework</div>
+    </div>
+    <div class="tech-item reveal">
+      <div class="tech-name">Lipgloss v2</div>
+      <div class="tech-role">Terminal Styling</div>
+    </div>
+    <div class="tech-item reveal">
+      <div class="tech-name">SQLite</div>
+      <div class="tech-role">Persistent Cache</div>
+    </div>
+    <div class="tech-item reveal">
+      <div class="tech-name">GoReleaser</div>
+      <div class="tech-role">Cross-platform Builds</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ TERMINAL DEMO ═════════════════════════════ -->
+<section id="demo">
+  <div class="section-header reveal">
+    <div class="section-tag">Live Preview</div>
+    <h2 class="section-title">Terminal <span>Demo</span></h2>
+  </div>
+  <div class="terminal-wrapper reveal">
+    <div class="terminal">
+      <div class="terminal-header">
+        <div class="terminal-dot"></div>
+        <div class="terminal-dot"></div>
+        <div class="terminal-dot"></div>
+        <span class="terminal-title">anilix — ~/anime</span>
+      </div>
+      <div class="terminal-body" id="terminal-body">
+        <div class="terminal-line" data-delay="0">
+          <span class="term-prompt">❯ </span><span class="term-cmd">anilix</span>
+        </div>
+        <div class="terminal-line" data-delay="400">
+          <span class="term-comment">// initializing providers...</span>
+        </div>
+        <div class="terminal-line" data-delay="800">
+          <span class="term-output term-success">✓ Jikan provider registered</span>
+        </div>
+        <div class="terminal-line" data-delay="1000">
+          <span class="term-output term-success">✓ AniList provider registered</span>
+        </div>
+        <div class="terminal-line" data-delay="1200">
+          <span class="term-output term-success">✓ AllAnime provider registered</span>
+        </div>
+        <div class="terminal-line" data-delay="1600">
+          <span class="term-output">&nbsp;</span>
+        </div>
+        <div class="terminal-line" data-delay="2000">
+          <span class="term-prompt">search ❯ </span><span class="term-cmd">steins;gate</span><span class="term-cursor"></span>
+        </div>
+        <div class="terminal-line" data-delay="2800">
+          <span class="term-output">&nbsp;</span>
+        </div>
+        <div class="terminal-line" data-delay="3200">
+          <span class="term-output term-magenta">┌─ Results ─────────────────────────────┐</span>
+        </div>
+        <div class="terminal-line" data-delay="3400">
+          <span class="term-output">│ <span class="term-cyan">▸</span> <span class="term-cmd">Steins;Gate</span>              <span class="term-purple">2011</span>  <span class="term-success">9.08</span> │</span>
+        </div>
+        <div class="terminal-line" data-delay="3600">
+          <span class="term-output">│   <span class="term-comment">24 eps · Sci-Fi, Thriller</span>           │</span>
+        </div>
+        <div class="terminal-line" data-delay="3800">
+          <span class="term-output">│   Steins;Gate 0              <span class="term-purple">2018</span>  <span class="term-success">8.47</span> │</span>
+        </div>
+        <div class="terminal-line" data-delay="4000">
+          <span class="term-output term-magenta">└───────────────────────────────────────┘</span>
+        </div>
+        <div class="terminal-line" data-delay="4500">
+          <span class="term-output">&nbsp;</span>
+        </div>
+        <div class="terminal-line" data-delay="4800">
+          <span class="term-prompt">episode ❯ </span><span class="term-cmd">1</span>
+        </div>
+        <div class="terminal-line" data-delay="5200">
+          <span class="term-output term-success">▸ Resolving streams... (3 sources found)</span>
+        </div>
+        <div class="terminal-line" data-delay="5600">
+          <span class="term-output">  <span class="term-cyan">●</span> hianime — 1080p — m3u8</span>
+        </div>
+        <div class="terminal-line" data-delay="5800">
+          <span class="term-output">  <span class="term-purple">○</span> filemoon — 720p — mp4</span>
+        </div>
+        <div class="terminal-line" data-delay="6000">
+          <span class="term-output">  <span class="term-purple">○</span> wixmp — 1080p — mp4</span>
+        </div>
+        <div class="terminal-line" data-delay="6400">
+          <span class="term-output term-success">▸ Launching mpv... ✓</span>
+        </div>
+      </div>
+    </div>
+    <div class="terminal-glow"></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ INSTALL ════════════════════════════════════ -->
+<section id="install">
+  <div class="section-header reveal">
+    <div class="section-tag">Get Started</div>
+    <h2 class="section-title">Install <span>Anilix</span></h2>
+  </div>
+  <div class="install-blocks">
+    <div class="install-block reveal">
+      <h4>Linux / macOS / Termux</h4>
+      <div class="install-cmd">curl -fsSL https://raw.githubusercontent.com/hishantik/anilix/main/install.sh | sh</div>
+    </div>
+    <div class="install-block reveal">
+      <h4>Windows (PowerShell)</h4>
+      <div class="install-cmd">curl -fsSL https://raw.githubusercontent.com/hishantik/anilix/main/install.bat -o install.bat && .\install.bat</div>
+    </div>
+    <div class="install-block reveal">
+      <h4>Go Install</h4>
+      <div class="install-cmd">go install github.com/hishantik/anilix@latest</div>
+    </div>
+    <div class="install-block reveal">
+      <h4>Build from Source</h4>
+      <div class="install-cmd">git clone https://github.com/hishantik/anilix && cd anilix && go build -o anilix .</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════ -->
+<footer>
+  <p>
+    <a href="https://github.com/hishantik/anilix">GitHub</a> ·
+    MIT License ·
+    Built with Go ·
+    Inspired by <a href="https://github.com/pystardust/ani-cli">ani-cli</a>
+  </p>
+</footer>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SCRIPTS -->
+<!-- ═══════════════════════════════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="js/main.js" type="module"></script>
+
+</body>
+</html>
