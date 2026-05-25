@@ -356,47 +356,51 @@ section {
 /* ── ARCHITECTURE ────────────────────────────────── */
 .arch-flow {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: nowrap;
   gap: 0;
   position: relative;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 2rem;
+  overflow-x: auto;
 }
 
 .arch-flow::before {
   content: '';
   position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(to bottom, var(--cyan), var(--magenta), var(--purple));
+  top: 2rem;
+  left: 5%;
+  right: 5%;
+  height: 2px;
+  width: auto;
+  background: linear-gradient(to right, var(--cyan), var(--magenta), var(--purple));
   opacity: 0.3;
-  transform: translateX(-50%);
+  transform: none;
 }
 
 .arch-node {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 1.5rem 0;
+  padding: 1.5rem 0.5rem;
   position: relative;
+  flex: 1;
+  min-width: 0;
 }
 
-.arch-node:nth-child(odd) .arch-box {
-  margin-right: auto;
-  margin-left: 5%;
-}
-
+.arch-node:nth-child(odd) .arch-box,
 .arch-node:nth-child(even) .arch-box {
-  margin-left: auto;
-  margin-right: 5%;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .arch-box {
   background: var(--bg-card);
   border: 1px solid var(--border-glow);
-  padding: 1.5rem 2.5rem;
+  padding: 1.2rem 1.2rem;
   position: relative;
-  max-width: 400px;
+  max-width: 220px;
   width: 100%;
   text-align: center;
   transition: all 0.3s ease;
@@ -409,7 +413,7 @@ section {
 
 .arch-box h4 {
   font-family: var(--font-display);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   letter-spacing: 0.1em;
   color: var(--cyan);
   margin-bottom: 0.4rem;
@@ -417,16 +421,16 @@ section {
 
 .arch-box p {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 .arch-arrow {
   position: absolute;
   bottom: -8px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) rotate(90deg);
   width: 0;
   height: 0;
   border-left: 6px solid transparent;
@@ -437,13 +441,18 @@ section {
 
 .arch-connector {
   display: flex;
+  align-items: center;
   justify-content: center;
-  padding: 0.5rem 0;
+  padding: 0;
+  flex: 0;
+  min-width: 2rem;
+  align-self: flex-start;
+  margin-top: 2rem;
 }
 
 .arch-connector span {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.85rem;
   color: var(--purple);
   letter-spacing: 0.2em;
 }
@@ -543,12 +552,20 @@ section {
 }
 
 .terminal-body {
-  padding: 1.5rem;
+  padding: 0;
   font-family: var(--font-mono);
   font-size: 0.85rem;
   line-height: 1.8;
-  min-height: 350px;
   position: relative;
+  overflow: hidden;
+  border-radius: 0 0 8px 8px;
+}
+
+.terminal-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 
 .terminal-line {
@@ -688,13 +705,56 @@ footer a:hover {
 @media (max-width: 768px) {
   section { padding: 5rem 1.5rem; }
 
-  .arch-flow::before { left: 1.5rem; }
+  .arch-flow {
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 0;
+    overflow-x: visible;
+  }
+
+  .arch-flow::before {
+    left: 1.5rem;
+    top: 0;
+    right: auto;
+    width: 2px;
+    height: auto;
+    bottom: 0;
+    background: linear-gradient(to bottom, var(--cyan), var(--magenta), var(--purple));
+    transform: translateX(-50%);
+  }
+
+  .arch-node {
+    flex-direction: row;
+    align-items: center;
+    padding: 1.5rem 0;
+  }
 
   .arch-node:nth-child(odd) .arch-box,
   .arch-node:nth-child(even) .arch-box {
     margin-left: 3.5rem;
     margin-right: 0;
+    max-width: 400px;
   }
+
+  .arch-box {
+    padding: 1.5rem 2.5rem;
+    max-width: 400px;
+  }
+
+  .arch-box h4 { font-size: 0.85rem; }
+  .arch-box p { font-size: 0.75rem; }
+
+  .arch-arrow {
+    transform: translateX(-50%);
+  }
+
+  .arch-connector {
+    padding: 0.5rem 0;
+    align-self: auto;
+    margin-top: 0;
+  }
+
+  .arch-connector span { font-size: 0.65rem; }
 
   .features-grid { grid-template-columns: 1fr; }
   .tech-grid { grid-template-columns: repeat(2, 1fr); }

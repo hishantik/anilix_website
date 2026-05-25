@@ -270,7 +270,7 @@
         <div class="arch-arrow"></div>
       </div>
     </div>
-    <div class="arch-connector reveal"><span>▼</span></div>
+    <div class="arch-connector reveal"><span>▸</span></div>
     <div class="arch-node reveal">
       <div class="arch-box">
         <h4>Source Interface</h4>
@@ -278,7 +278,7 @@
         <div class="arch-arrow"></div>
       </div>
     </div>
-    <div class="arch-connector reveal"><span>▼</span></div>
+    <div class="arch-connector reveal"><span>▸</span></div>
     <div class="arch-node reveal">
       <div class="arch-box">
         <h4>Providers</h4>
@@ -286,7 +286,7 @@
         <div class="arch-arrow"></div>
       </div>
     </div>
-    <div class="arch-connector reveal"><span>▼</span></div>
+    <div class="arch-connector reveal"><span>▸</span></div>
     <div class="arch-node reveal">
       <div class="arch-box">
         <h4>AnimeLinker</h4>
@@ -294,7 +294,7 @@
         <div class="arch-arrow"></div>
       </div>
     </div>
-    <div class="arch-connector reveal"><span>▼</span></div>
+    <div class="arch-connector reveal"><span>▸</span></div>
     <div class="arch-node reveal">
       <div class="arch-box">
         <h4>Stream Extractors</h4>
@@ -302,7 +302,7 @@
         <div class="arch-arrow"></div>
       </div>
     </div>
-    <div class="arch-connector reveal"><span>▼</span></div>
+    <div class="arch-connector reveal"><span>▸</span></div>
     <div class="arch-node reveal">
       <div class="arch-box">
         <h4>Player Launcher</h4>
@@ -356,7 +356,7 @@
     <div class="section-tag">Live Preview</div>
     <h2 class="section-title">Terminal <span>Demo</span></h2>
   </div>
-  <div class="terminal-wrapper reveal">
+  <div class="terminal-wrapper">
     <div class="terminal">
       <div class="terminal-header">
         <div class="terminal-dot"></div>
@@ -365,66 +365,9 @@
         <span class="terminal-title">anilix — ~/anime</span>
       </div>
       <div class="terminal-body" id="terminal-body">
-        <div class="terminal-line" data-delay="0">
-          <span class="term-prompt">❯ </span><span class="term-cmd">anilix</span>
-        </div>
-        <div class="terminal-line" data-delay="400">
-          <span class="term-comment">// initializing providers...</span>
-        </div>
-        <div class="terminal-line" data-delay="800">
-          <span class="term-output term-success">✓ Jikan provider registered</span>
-        </div>
-        <div class="terminal-line" data-delay="1000">
-          <span class="term-output term-success">✓ AniList provider registered</span>
-        </div>
-        <div class="terminal-line" data-delay="1200">
-          <span class="term-output term-success">✓ AllAnime provider registered</span>
-        </div>
-        <div class="terminal-line" data-delay="1600">
-          <span class="term-output">&nbsp;</span>
-        </div>
-        <div class="terminal-line" data-delay="2000">
-          <span class="term-prompt">search ❯ </span><span class="term-cmd">steins;gate</span><span class="term-cursor"></span>
-        </div>
-        <div class="terminal-line" data-delay="2800">
-          <span class="term-output">&nbsp;</span>
-        </div>
-        <div class="terminal-line" data-delay="3200">
-          <span class="term-output term-magenta">┌─ Results ─────────────────────────────┐</span>
-        </div>
-        <div class="terminal-line" data-delay="3400">
-          <span class="term-output">│ <span class="term-cyan">▸</span> <span class="term-cmd">Steins;Gate</span>              <span class="term-purple">2011</span>  <span class="term-success">9.08</span> │</span>
-        </div>
-        <div class="terminal-line" data-delay="3600">
-          <span class="term-output">│   <span class="term-comment">24 eps · Sci-Fi, Thriller</span>           │</span>
-        </div>
-        <div class="terminal-line" data-delay="3800">
-          <span class="term-output">│   Steins;Gate 0              <span class="term-purple">2018</span>  <span class="term-success">8.47</span> │</span>
-        </div>
-        <div class="terminal-line" data-delay="4000">
-          <span class="term-output term-magenta">└───────────────────────────────────────┘</span>
-        </div>
-        <div class="terminal-line" data-delay="4500">
-          <span class="term-output">&nbsp;</span>
-        </div>
-        <div class="terminal-line" data-delay="4800">
-          <span class="term-prompt">episode ❯ </span><span class="term-cmd">1</span>
-        </div>
-        <div class="terminal-line" data-delay="5200">
-          <span class="term-output term-success">▸ Resolving streams... (3 sources found)</span>
-        </div>
-        <div class="terminal-line" data-delay="5600">
-          <span class="term-output">  <span class="term-cyan">●</span> hianime — 1080p — m3u8</span>
-        </div>
-        <div class="terminal-line" data-delay="5800">
-          <span class="term-output">  <span class="term-purple">○</span> filemoon — 720p — mp4</span>
-        </div>
-        <div class="terminal-line" data-delay="6000">
-          <span class="term-output">  <span class="term-purple">○</span> wixmp — 1080p — mp4</span>
-        </div>
-        <div class="terminal-line" data-delay="6400">
-          <span class="term-output term-success">▸ Launching mpv... ✓</span>
-        </div>
+        <video class="terminal-video" id="demo-video" autoplay muted playsinline loop>
+          <source src="assets/demo.mp4" type="video/mp4">
+        </video>
       </div>
     </div>
     <div class="terminal-glow"></div>

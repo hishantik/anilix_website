@@ -1,24 +1,22 @@
 /**
- * Terminal Demo Animation
- * Typewriter effect triggered by scroll
+ * Terminal Demo — video autoplay on scroll
  */
 export function initTerminal() {
-  const terminalBody = document.getElementById('terminal-body');
-  if (!terminalBody) return;
+  const video = document.getElementById('demo-video');
+  if (!video) return;
 
-  const terminalLines = terminalBody.querySelectorAll('.terminal-line');
+  // Attempt autoplay immediately in case already in view
+  video.play().catch(() => {});
 
-  ScrollTrigger.create({
-    trigger: '.terminal-wrapper',
-    start: 'top 70%',
-    once: true,
-    onEnter: () => {
-      terminalLines.forEach((line) => {
-        const delay = parseInt(line.dataset.delay) || 0;
-        setTimeout(() => {
-          line.classList.add('visible');
-        }, delay);
-      });
-    }
-  });
+  // Use IntersectionObserver as fallback for scroll-triggered play
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        video.play().catch(() => {});
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  observer.observe(video);
 }
