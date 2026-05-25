@@ -389,7 +389,7 @@
     </div>
     <div class="install-block reveal">
       <h4>Windows (PowerShell)</h4>
-      <div class="install-cmd">curl -fsSL https://raw.githubusercontent.com/hishantik/anilix/main/install.bat -o install.bat && .\install.bat</div>
+      <div class="install-cmd">Invoke-WebRequest -Uri "https://raw.githubusercontent.com/hishantik/anilix/main/install.bat" -OutFile "install.bat"; .\install.bat</div>
     </div>
     <div class="install-block reveal">
       <h4>Go Install</h4>
