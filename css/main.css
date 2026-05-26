@@ -678,6 +678,106 @@ section {
   color: var(--text-muted);
 }
 
+/* ── DEPENDENCIES ────────────────────────────────── */
+.deps-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.dep-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.dep-card:hover {
+  border-color: rgba(0, 255, 245, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.dep-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.dep-icon {
+  font-size: 1.5rem;
+  color: var(--cyan);
+}
+
+.dep-header h4 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  color: var(--text-primary);
+}
+
+.dep-badge {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  display: inline-block;
+  margin-top: 0.2rem;
+}
+
+.dep-required {
+  background: rgba(0, 255, 245, 0.15);
+  color: var(--cyan);
+  border: 1px solid rgba(0, 255, 245, 0.3);
+}
+
+.dep-optional {
+  background: rgba(123, 47, 255, 0.15);
+  color: var(--purple);
+  border: 1px solid rgba(123, 47, 255, 0.3);
+}
+
+.dep-desc {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.dep-platforms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.dep-platform {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dep-platform-label {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--magenta);
+}
+
+.dep-platform .install-cmd {
+  font-size: 0.78rem;
+  padding: 0.6rem 1rem;
+}
+
+@media (min-width: 769px) {
+  .deps-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 /* ── FOOTER ──────────────────────────────────────── */
 footer {
   text-align: center;
@@ -701,10 +801,98 @@ footer a:hover {
   color: var(--magenta);
 }
 
-/* ── RESPONSIVE ──────────────────────────────────── */
+/* ── MOBILE ─────────────────────────────────────── */
 @media (max-width: 768px) {
-  section { padding: 5rem 1.5rem; }
+  section {
+    padding: 4rem 1.25rem;
+  }
 
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100svh;
+    padding: 1.5rem;
+  }
+
+  .hero-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    margin-bottom: 1rem;
+  }
+
+  .hero-logo {
+    width: clamp(220px, 70vw, 360px);
+  }
+
+  .hero-subtitle {
+    font-size: 0.85rem;
+    max-width: 100%;
+    padding: 0 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  .btn {
+    font-size: 0.8rem;
+    padding: 0.85rem 2rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .scroll-indicator {
+    display: none;
+  }
+
+  /* Features */
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  .feature-card h3 {
+    font-size: 0.95rem;
+  }
+
+  .feature-card p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .feature-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .feature-index {
+    font-size: 0.6rem;
+    top: 0.8rem;
+    right: 1rem;
+  }
+
+  /* Architecture */
   .arch-flow {
     flex-direction: column;
     align-items: stretch;
@@ -713,7 +901,7 @@ footer a:hover {
   }
 
   .arch-flow::before {
-    left: 1.5rem;
+    left: 1.25rem;
     top: 0;
     right: auto;
     width: 2px;
@@ -726,38 +914,333 @@ footer a:hover {
   .arch-node {
     flex-direction: row;
     align-items: center;
-    padding: 1.5rem 0;
+    padding: 1rem 0;
   }
 
   .arch-node:nth-child(odd) .arch-box,
   .arch-node:nth-child(even) .arch-box {
-    margin-left: 3.5rem;
+    margin-left: 3rem;
     margin-right: 0;
-    max-width: 400px;
+    max-width: 100%;
   }
 
   .arch-box {
-    padding: 1.5rem 2.5rem;
-    max-width: 400px;
+    padding: 1rem 1.25rem;
+    max-width: 100%;
   }
 
-  .arch-box h4 { font-size: 0.85rem; }
-  .arch-box p { font-size: 0.75rem; }
+  .arch-box h4 {
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .arch-box p {
+    font-size: 0.7rem;
+  }
 
   .arch-arrow {
     transform: translateX(-50%);
   }
 
   .arch-connector {
-    padding: 0.5rem 0;
+    padding: 0.25rem 0;
     align-self: auto;
     margin-top: 0;
   }
 
-  .arch-connector span { font-size: 0.65rem; }
+  .arch-connector span {
+    font-size: 0.6rem;
+  }
 
-  .features-grid { grid-template-columns: 1fr; }
-  .tech-grid { grid-template-columns: repeat(2, 1fr); }
+  /* Tech Stack */
+  .tech-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .tech-item {
+    padding: 1.25rem;
+  }
+
+  .tech-name {
+    font-size: 0.95rem;
+  }
+
+  .tech-role {
+    font-size: 0.65rem;
+  }
+
+  /* Terminal Demo */
+  .terminal-wrapper {
+    max-width: 100%;
+  }
+
+  .terminal-header {
+    padding: 0.6rem 1rem;
+  }
+
+  .terminal-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .terminal-title {
+    font-size: 0.7rem;
+  }
+
+  .terminal video {
+    max-height: 50vh;
+    object-fit: contain;
+  }
+
+  /* Install */
+  .install-block {
+    padding: 1.25rem;
+  }
+
+  .install-block h4 {
+    font-size: 0.75rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .install-cmd {
+    font-size: 0.75rem;
+    padding: 0.75rem 1rem;
+    line-height: 1.6;
+  }
+
+  /* Dependencies */
+  .deps-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .dep-card {
+    padding: 1.25rem;
+  }
+
+  .dep-header {
+    margin-bottom: 0.6rem;
+  }
+
+  .dep-icon {
+    font-size: 1.2rem;
+  }
+
+  .dep-header h4 {
+    font-size: 0.9rem;
+  }
+
+  .dep-badge {
+    font-size: 0.55rem;
+  }
+
+  .dep-desc {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .dep-platforms {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .dep-platform-label {
+    font-size: 0.65rem;
+  }
+
+  .dep-platform .install-cmd {
+    font-size: 0.7rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  /* Footer */
+  footer {
+    padding: 2.5rem 1rem;
+  }
+
+  footer p {
+    font-size: 0.7rem;
+    line-height: 2;
+  }
+}
+
+/* ── DESKTOP (1024px+) ──────────────────────────── */
+@media (min-width: 1024px) {
+  .install-blocks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .terminal-wrapper {
+    max-width: 960px;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .feature-card h3 {
+    font-size: 1.15rem;
+  }
+
+  .feature-card p {
+    font-size: 1.05rem;
+  }
+
+  .section-title {
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+  }
+
+  .section-tag {
+    font-size: 0.8rem;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+  }
+
+  .hero-logo {
+    width: clamp(320px, 50vw, 540px);
+  }
+
+  .tech-name {
+    font-size: 1.25rem;
+  }
+
+  .tech-role {
+    font-size: 0.85rem;
+  }
+
+  .arch-box h4 {
+    font-size: 0.9rem;
+  }
+
+  .arch-box p {
+    font-size: 0.75rem;
+  }
+
+  .install-block h4 {
+    font-size: 0.9rem;
+  }
+
+  .install-cmd {
+    font-size: 0.95rem;
+  }
+
+  .dep-header h4 {
+    font-size: 1.1rem;
+  }
+
+  .dep-desc {
+    font-size: 1rem;
+  }
+
+  .dep-platform-label {
+    font-size: 0.75rem;
+  }
+
+  .dep-platform .install-cmd {
+    font-size: 0.85rem;
+  }
+
+  footer p {
+    font-size: 0.85rem;
+  }
+}
+
+/* ── WIDE DESKTOP (1440px+) ─────────────────────── */
+@media (min-width: 1440px) {
+  section {
+    padding: 8rem 3rem;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  .feature-card {
+    padding: 2.5rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.25rem;
+  }
+
+  .feature-card p {
+    font-size: 1.1rem;
+  }
+
+  .section-title {
+    font-size: clamp(2.8rem, 5vw, 4rem);
+  }
+
+  .section-tag {
+    font-size: 0.85rem;
+  }
+
+  .hero-subtitle {
+    max-width: 700px;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+  }
+
+  .hero-logo {
+    width: clamp(360px, 45vw, 580px);
+  }
+
+  .tech-name {
+    font-size: 1.4rem;
+  }
+
+  .tech-role {
+    font-size: 0.9rem;
+  }
+
+  .tech-item {
+    padding: 2.5rem;
+  }
+
+  .arch-box h4 {
+    font-size: 1rem;
+  }
+
+  .arch-box p {
+    font-size: 0.8rem;
+  }
+
+  .terminal-wrapper {
+    max-width: 1000px;
+  }
+
+  .install-block h4 {
+    font-size: 1rem;
+  }
+
+  .install-cmd {
+    font-size: 1rem;
+  }
+
+  .install-block {
+    padding: 2.5rem;
+  }
+
+  .dep-header h4 {
+    font-size: 1.2rem;
+  }
+
+  .dep-desc {
+    font-size: 1.05rem;
+  }
+
+  .dep-card {
+    padding: 2.5rem;
+  }
+
+  footer p {
+    font-size: 0.9rem;
+  }
 }
 
 /* ── GSAP REVEAL CLASSES ─────────────────────────── */

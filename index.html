@@ -400,6 +400,95 @@
       <div class="install-cmd">git clone https://github.com/hishantik/anilix && cd anilix && go build -o anilix .</div>
     </div>
   </div>
+
+  <div class="section-header reveal" style="margin-top: 4rem;">
+    <div class="section-tag">Recommended</div>
+    <h2 class="section-title">Dependencies</h2>
+  </div>
+
+  <div class="deps-grid">
+    <!-- mpv -->
+    <div class="dep-card reveal">
+      <div class="dep-header">
+        <span class="dep-icon">▶</span>
+        <div>
+          <h4>mpv</h4>
+          <span class="dep-badge dep-required">Required</span>
+        </div>
+      </div>
+      <p class="dep-desc">Video player for stream playback. Default player for Anilix.</p>
+      <div class="dep-platforms">
+        <div class="dep-platform">
+          <span class="dep-platform-label">Windows</span>
+          <div class="install-cmd">winget install mpv</div>
+          <div class="install-cmd">scoop install mpv</div>
+        </div>
+        <div class="dep-platform">
+          <span class="dep-platform-label">macOS</span>
+          <div class="install-cmd">brew install mpv</div>
+        </div>
+        <div class="dep-platform">
+          <span class="dep-platform-label">Linux</span>
+          <div class="install-cmd">sudo apt install mpv</div>
+          <div class="install-cmd">sudo pacman -S mpv</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ghostty -->
+    <div class="dep-card reveal">
+      <div class="dep-header">
+        <span class="dep-icon">⌘</span>
+        <div>
+          <h4>Ghostty</h4>
+          <span class="dep-badge dep-optional">Optional</span>
+        </div>
+      </div>
+      <p class="dep-desc">GPU-accelerated terminal emulator with true color and ligature support. Best experience for the TUI.</p>
+      <div class="dep-platforms">
+        <div class="dep-platform">
+          <span class="dep-platform-label">Windows</span>
+          <div class="install-cmd">winget install Ghostty.Ghostty</div>
+        </div>
+        <div class="dep-platform">
+          <span class="dep-platform-label">macOS</span>
+          <div class="install-cmd">brew install --cask ghostty</div>
+        </div>
+        <div class="dep-platform">
+          <span class="dep-platform-label">Linux</span>
+          <div class="install-cmd">flatpak install com.mitchellh.ghostty</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ffmpeg -->
+    <div class="dep-card reveal">
+      <div class="dep-header">
+        <span class="dep-icon">⚙</span>
+        <div>
+          <h4>ffmpeg</h4>
+          <span class="dep-badge dep-optional">Optional</span>
+        </div>
+      </div>
+      <p class="dep-desc">Media processing for stream extraction. Required only when building from source.</p>
+      <div class="dep-platforms">
+        <div class="dep-platform">
+          <span class="dep-platform-label">Windows</span>
+          <div class="install-cmd">winget install ffmpeg</div>
+          <div class="install-cmd">scoop install ffmpeg</div>
+        </div>
+        <div class="dep-platform">
+          <span class="dep-platform-label">macOS</span>
+          <div class="install-cmd">brew install ffmpeg</div>
+        </div>
+        <div class="dep-platform">
+          <span class="dep-platform-label">Linux</span>
+          <div class="install-cmd">sudo apt install ffmpeg</div>
+          <div class="install-cmd">sudo pacman -S ffmpeg</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- ═══ FOOTER ════════════════════════════════════ -->
