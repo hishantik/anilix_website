@@ -3,6 +3,27 @@
  * Particles, wireframe structures, grid floor, connecting lines
  */
 export function initScene(canvas) {
+  // Check WebGL support
+  try {
+    const testCanvas = document.createElement('canvas');
+    const gl = testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl');
+    if (!gl) {
+      canvas.style.display = 'none';
+      document.body.classList.add('no-webgl');
+      return;
+    }
+  } catch (e) {
+    canvas.style.display = 'none';
+    document.body.classList.add('no-webgl');
+    return;
+  }
+
+  // Respect prefers-reduced-motion
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    canvas.style.display = 'none';
+    return;
+  }
+
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 30;
