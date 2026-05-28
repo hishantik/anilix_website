@@ -4,53 +4,95 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anilix — Terminal Anime Streaming</title>
-<meta name="description" content="Anilix is a cyberpunk-grade Go terminal application for streaming anime directly from your command line. Search anime, browse episodes, and stream with multi-provider intelligence.">
-<meta name="keywords" content="anilix, anime, terminal, streaming, CLI, Go, command line, anime streaming, terminal anime, TUI">
-<meta name="author" content="hishantik">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://anilix.github.io/anilix_website/">
+<meta name="description" content="Anilix — a terminal-based anime streaming client built in Go. Search, browse, and stream anime directly from your command line with multi-provider intelligence.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://anilix.github.io/anilix_website/">
+<meta property="og:url" content="https://hishantik.github.io/anilix">
 <meta property="og:title" content="Anilix — Terminal Anime Streaming">
-<meta property="og:description" content="Cyberpunk-grade Go terminal application for streaming anime directly from your command line.">
-<meta property="og:image" content="https://anilix.github.io/anilix_website/og-image.png">
-<meta property="og:site_name" content="Anilix">
+<meta property="og:description" content="Search, browse, and stream anime directly from your terminal. Cyberpunk-grade Go application with multi-provider intelligence.">
+<meta property="og:image" content="https://hishantik.github.io/anilix/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Anilix — Terminal Anime Streaming">
-<meta name="twitter:description" content="Cyberpunk-grade Go terminal application for streaming anime directly from your command line.">
-<meta name="twitter:image" content="https://anilix.github.io/anilix_website/og-image.png">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Anilix",
-  "description": "Cyberpunk-grade Go terminal application for streaming anime directly from your command line.",
-  "applicationCategory": "MultimediaApplication",
-  "operatingSystem": "Windows, macOS, Linux, Termux",
-  "author": {
-    "@type": "Person",
-    "name": "hishantik"
-  },
-  "url": "https://github.com/hishantik/anilix"
-}
-</script>
+<meta name="twitter:description" content="Search, browse, and stream anime directly from your terminal.">
+<meta name="twitter:image" content="https://hishantik.github.io/anilix/assets/og-image.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230a0a0f'/%3E%3Ctext x='16' y='24' text-anchor='middle' font-family='sans-serif' font-size='22' font-weight='900' fill='%2300fff5'%3EA%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#0a0a0f">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 
-<canvas id="three-canvas"></canvas>
-<div class="scanline-overlay"></div>
+<!-- ═══ LOADING SCREEN ═══════════════════════════ -->
+<div id="loader" class="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-glitch" data-text="ANILIX">ANILIX</div>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+    <div class="loader-status">initializing systems<span class="loader-dots">...</span></div>
+  </div>
+</div>
 
-<div class="content">
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<canvas id="three-canvas" aria-hidden="true"></canvas>
+<div class="scanline-overlay" aria-hidden="true"></div>
+
+<!-- ═══ NAVIGATION ═══════════════════════════════ -->
+<nav class="site-nav" aria-label="Main navigation">
+  <a href="#" class="nav-logo" aria-label="Anilix home">
+    <svg class="nav-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
+      <line x1="12" y1="22" x2="12" y2="15.5"/>
+      <polyline points="22 8.5 12 15.5 2 8.5"/>
+    </svg>
+    <span>ANILIX</span>
+  </a>
+  <div class="nav-links" id="nav-links">
+    <a href="#features">Features</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#tech">Stack</a>
+    <a href="#demo">Demo</a>
+    <a href="#install">Install</a>
+  </div>
+  <div class="nav-actions">
+    <a href="https://github.com/hishantik/anilix" class="nav-github" aria-label="GitHub repository" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+    </a>
+    <a href="#install" class="nav-cta">
+      <span>Get Started</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ MOBILE MENU ══════════════════════════════ -->
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu-inner">
+    <a href="#features">Features</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#tech">Stack</a>
+    <a href="#demo">Demo</a>
+    <a href="#install">Install</a>
+    <a href="https://github.com/hishantik/anilix" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</div>
+
+<main id="main-content" class="content">
 
 <!-- ═══ HERO ══════════════════════════════════════ -->
-<section class="hero">
-  <div class="hero-glitch-line"></div>
-  <div class="hero-label">// terminal anime streaming client</div>
+<section class="hero" aria-label="Introduction">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-glitch-line" aria-hidden="true"></div>
 
-  <svg class="hero-logo" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <div class="hero-badge reveal">
+    <span class="hero-badge-dot"></span>
+    <span>// terminal anime streaming client</span>
+  </div>
+
+  <svg class="hero-logo" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Anilix logo — animated network graph with hexagonal nodes representing search, streaming, extraction, playback, caching, and metadata">
     <defs>
       <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="#00d4ff"/>
@@ -94,13 +136,13 @@
         @keyframes dash { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -40; } }
         @keyframes breathe { 0%,100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.15); opacity: 0.9; } }
         @keyframes titlePulse { 0%,100% { filter: drop-shadow(0 0 6px #00d4ff); } 50% { filter: drop-shadow(0 0 20px #d946ef); } }
-        .orbit1 { transform-origin: 400px 400px; animation: orbit1 20s linear infinite; }
-        .orbit2 { transform-origin: 400px 400px; animation: orbit2 28s linear infinite; }
-        .orbit3 { transform-origin: 400px 400px; animation: orbit3 35s linear infinite; }
-        .node-pulse { animation: pulse 3s ease-in-out infinite; }
-        .line-dash { stroke-dasharray: 8 6; animation: dash 3s linear infinite; }
-        .breathe { animation: breathe 4s ease-in-out infinite; }
-        .title-anim { animation: titlePulse 3s ease-in-out infinite; }
+        .orbit1 { transform-origin: 400px 400px; animation: orbit1 40s linear infinite; }
+        .orbit2 { transform-origin: 400px 400px; animation: orbit2 50s linear infinite; }
+        .orbit3 { transform-origin: 400px 400px; animation: orbit3 60s linear infinite; }
+        .node-pulse { animation: pulse 5s ease-in-out infinite; }
+        .line-dash { stroke-dasharray: 8 6; animation: dash 6s linear infinite; }
+        .breathe { animation: breathe 6s ease-in-out infinite; }
+        .title-anim { animation: titlePulse 5s ease-in-out infinite; }
         .hover-node { transition: r 0.3s ease, filter 0.3s ease; cursor: pointer; }
         .hover-node:hover { r: 18; filter: url(#glow); }
         .link { transition: stroke-width 0.2s ease; }
@@ -213,129 +255,224 @@
     </g>
   </svg>
 
-  <p class="hero-subtitle">
-    Search anime. Browse episodes. Stream directly from your <span>terminal</span>.
+  <h1 class="hero-title reveal">
+    <span class="hero-title-line">Stream Anime</span>
+    <span class="hero-title-line hero-title-accent">From Your Terminal</span>
+  </h1>
+
+  <p class="hero-subtitle reveal">
+    Search anime. Browse episodes. Stream directly from your <span class="text-cyan">terminal</span>.
     <br>Cyberpunk-grade Go application with multi-provider intelligence.
   </p>
-  <div class="hero-cta">
-    <a href="#install" class="btn btn-primary">Install Now</a>
-    <a href="#features" class="btn btn-ghost">Explore</a>
+
+  <div class="hero-cta reveal">
+    <a href="#install" class="btn btn-primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <span>Install Now</span>
+    </a>
+    <a href="#features" class="btn btn-ghost">
+      <span>Explore Features</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
   </div>
-  <div class="scroll-indicator">Scroll</div>
+
+  <div class="hero-stats reveal">
+    <div class="hero-stat">
+      <span class="hero-stat-value" data-count="8">0</span><span class="hero-stat-plus">+</span>
+      <span class="hero-stat-label">Stream Sources</span>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value" data-count="5">0</span>
+      <span class="hero-stat-label">Player Support</span>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value" data-count="3">0</span>
+      <span class="hero-stat-label">API Providers</span>
+    </div>
+  </div>
+
+  <div class="scroll-indicator" aria-hidden="true">
+    <span>Scroll</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
 </section>
 
 <div class="section-divider"></div>
 
 <!-- ═══ FEATURES ══════════════════════════════════ -->
-<section id="features">
+<section id="features" aria-label="Features">
   <div class="section-header reveal">
     <div class="section-tag">Capabilities</div>
     <h2 class="section-title">Terminal <span>Superpowers</span></h2>
+    <p class="section-desc">Everything you need to search, browse, and stream anime — right from your command line.</p>
   </div>
   <div class="features-grid">
+
     <div class="feature-card reveal">
-      <span class="feature-index">01</span>
-      <span class="feature-icon">⬡</span>
+      <div class="feature-card-glow" aria-hidden="true"></div>
+      <div class="feature-header">
+        <span class="feature-index">01</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+      </div>
       <h3>Interactive TUI</h3>
       <p>Two-column search layout with instant metadata preview. Navigate with vim keys, built on Bubble Tea v2's Elm architecture.</p>
     </div>
+
     <div class="feature-card reveal">
-      <span class="feature-index">02</span>
-      <span class="feature-icon">⟐</span>
+      <div class="feature-card-glow" aria-hidden="true"></div>
+      <div class="feature-header">
+        <span class="feature-index">02</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+      </div>
       <h3>Multi-provider Search</h3>
       <p>Parallel search across Jikan and AniList APIs. Results merged with unified ranking for comprehensive coverage.</p>
     </div>
+
     <div class="feature-card reveal">
-      <span class="feature-index">03</span>
-      <span class="feature-icon">◈</span>
+      <div class="feature-card-glow" aria-hidden="true"></div>
+      <div class="feature-header">
+        <span class="feature-index">03</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+      </div>
       <h3>Quality Selection</h3>
       <p>Cycle through presets: best, 1080p, 720p, 480p, 360p, auto. Adaptive streaming with instant quality switching.</p>
     </div>
+
     <div class="feature-card reveal">
-      <span class="feature-index">04</span>
-      <span class="feature-icon">◎</span>
+      <div class="feature-card-glow" aria-hidden="true"></div>
+      <div class="feature-header">
+        <span class="feature-index">04</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        </div>
+      </div>
       <h3>Sub / Dub Toggle</h3>
       <p>Switch between subtitled and dubbed versions on the fly with Ctrl+T. Seamless transition between audio tracks.</p>
     </div>
+
     <div class="feature-card reveal">
-      <span class="feature-index">05</span>
-      <span class="feature-icon">⏩</span>
+      <div class="feature-card-glow" aria-hidden="true"></div>
+      <div class="feature-header">
+        <span class="feature-index">05</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+      </div>
       <h3>Auto-Skip Intro / Outro</h3>
       <p>AniSkip integration with mpv Lua script. Automatically jumps intros and outros using community-sourced timestamps.</p>
     </div>
+
     <div class="feature-card reveal">
-      <span class="feature-index">06</span>
-      <span class="feature-icon">⧉</span>
+      <div class="feature-card-glow" aria-hidden="true"></div>
+      <div class="feature-header">
+        <span class="feature-index">06</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+        </div>
+      </div>
       <h3>Multi-host Extraction</h3>
       <p>Parallel stream extraction from 8+ hosts with priority fallback. First successful result wins with 500ms grace period.</p>
     </div>
+
     <div class="feature-card reveal">
-      <span class="feature-index">07</span>
-      <span class="feature-icon">⊞</span>
+      <div class="feature-card-glow" aria-hidden="true"></div>
+      <div class="feature-header">
+        <span class="feature-index">07</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+      </div>
       <h3>Android Proxy</h3>
       <p>Local HTTP proxy for seamless playback on Termux/PRoot. Custom DNS resolution bypasses platform limitations.</p>
     </div>
+
     <div class="feature-card reveal">
-      <span class="feature-index">08</span>
-      <span class="feature-icon">◫</span>
+      <div class="feature-card-glow" aria-hidden="true"></div>
+      <div class="feature-header">
+        <span class="feature-index">08</span>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        </div>
+      </div>
       <h3>Persistent Caching</h3>
       <p>SQLite-backed ID mapping for instant repeated lookups. MAL ID to AllAnime ID resolution cached permanently.</p>
     </div>
+
   </div>
 </section>
 
 <div class="section-divider"></div>
 
 <!-- ═══ ARCHITECTURE ══════════════════════════════ -->
-<section id="architecture">
+<section id="architecture" aria-label="Architecture">
   <div class="section-header reveal">
     <div class="section-tag">System Design</div>
     <h2 class="section-title">Data <span>Architecture</span></h2>
+    <p class="section-desc">From terminal input to video playback — every layer is optimized for speed and reliability.</p>
   </div>
   <div class="arch-flow">
     <div class="arch-node reveal">
       <div class="arch-box">
-        <h4>TUI / CLI</h4>
+        <div class="arch-box-tag">Layer 01</div>
+        <h3>TUI / CLI</h3>
         <p>Bubbletea v2 — Elm architecture state machine</p>
-        <div class="arch-arrow"></div>
       </div>
     </div>
-    <div class="arch-connector reveal"><span>▸</span></div>
+    <div class="arch-connector reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
     <div class="arch-node reveal">
       <div class="arch-box">
-        <h4>Source Interface</h4>
+        <div class="arch-box-tag">Layer 02</div>
+        <h3>Source Interface</h3>
         <p>Search() · SeasonsOf() · EpisodesOf() · StreamsOf()</p>
-        <div class="arch-arrow"></div>
       </div>
     </div>
-    <div class="arch-connector reveal"><span>▸</span></div>
+    <div class="arch-connector reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
     <div class="arch-node reveal">
       <div class="arch-box">
-        <h4>Providers</h4>
-        <p>Jikan (REST) + AniList (GraphQL) + AllAnime (GraphQL)</p>
-        <div class="arch-arrow"></div>
+        <div class="arch-box-tag">Layer 03</div>
+        <h3>Providers</h3>
+        <p>Jikan (REST) + AniList (GraphQL) + AllAnime</p>
       </div>
     </div>
-    <div class="arch-connector reveal"><span>▸</span></div>
+    <div class="arch-connector reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
     <div class="arch-node reveal">
       <div class="arch-box">
-        <h4>AnimeLinker</h4>
+        <div class="arch-box-tag">Layer 04</div>
+        <h3>AnimeLinker</h3>
         <p>MAL ID → AllAnime ID · SQLite cached resolution</p>
-        <div class="arch-arrow"></div>
       </div>
     </div>
-    <div class="arch-connector reveal"><span>▸</span></div>
+    <div class="arch-connector reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
     <div class="arch-node reveal">
       <div class="arch-box">
-        <h4>Stream Extractors</h4>
+        <div class="arch-box-tag">Layer 05</div>
+        <h3>Stream Extractors</h3>
         <p>8 extractors · Parallel · AES-256-CTR decryption</p>
-        <div class="arch-arrow"></div>
       </div>
     </div>
-    <div class="arch-connector reveal"><span>▸</span></div>
+    <div class="arch-connector reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
     <div class="arch-node reveal">
       <div class="arch-box">
-        <h4>Player Launcher</h4>
+        <div class="arch-box-tag">Layer 06</div>
+        <h3>Player Launcher</h3>
         <p>mpv · vlc · iina · mpv-android · vlc-android</p>
       </div>
     </div>
@@ -345,33 +482,52 @@
 <div class="section-divider"></div>
 
 <!-- ═══ TECH STACK ════════════════════════════════ -->
-<section id="tech">
+<section id="tech" aria-label="Tech Stack">
   <div class="section-header reveal">
     <div class="section-tag">Built With</div>
     <h2 class="section-title">Tech <span>Stack</span></h2>
+    <p class="section-desc">Battle-tested Go ecosystem for maximum performance and cross-platform support.</p>
   </div>
   <div class="tech-grid">
     <div class="tech-item reveal">
+      <div class="tech-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+      </div>
       <div class="tech-name">Go 1.25</div>
       <div class="tech-role">Language & Runtime</div>
     </div>
     <div class="tech-item reveal">
+      <div class="tech-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+      </div>
       <div class="tech-name">Cobra</div>
       <div class="tech-role">CLI Framework</div>
     </div>
     <div class="tech-item reveal">
+      <div class="tech-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
       <div class="tech-name">Bubbletea v2</div>
       <div class="tech-role">TUI Framework</div>
     </div>
     <div class="tech-item reveal">
+      <div class="tech-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="13.5" cy="6.5" r="2.5"/><path d="M17.08 8.36a2.49 2.49 0 01-.75 3.44L12 15"/><circle cx="6.5" cy="17.5" r="2.5"/><path d="M6.92 15.64a2.49 2.49 0 01.75-3.44L12 9"/></svg>
+      </div>
       <div class="tech-name">Lipgloss v2</div>
       <div class="tech-role">Terminal Styling</div>
     </div>
     <div class="tech-item reveal">
+      <div class="tech-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      </div>
       <div class="tech-name">SQLite</div>
       <div class="tech-role">Persistent Cache</div>
     </div>
     <div class="tech-item reveal">
+      <div class="tech-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      </div>
       <div class="tech-name">GoReleaser</div>
       <div class="tech-role">Cross-platform Builds</div>
     </div>
@@ -381,162 +537,137 @@
 <div class="section-divider"></div>
 
 <!-- ═══ TERMINAL DEMO ═════════════════════════════ -->
-<section id="demo">
+<section id="demo" aria-label="Terminal Demo">
   <div class="section-header reveal">
     <div class="section-tag">Live Preview</div>
     <h2 class="section-title">Terminal <span>Demo</span></h2>
+    <p class="section-desc">See Anilix in action — search, browse, and stream anime without leaving your terminal.</p>
   </div>
-  <div class="terminal-wrapper">
+  <div class="terminal-wrapper reveal">
     <div class="terminal">
       <div class="terminal-header">
-        <div class="terminal-dot"></div>
-        <div class="terminal-dot"></div>
-        <div class="terminal-dot"></div>
+        <div class="terminal-dots">
+          <div class="terminal-dot" aria-hidden="true"></div>
+          <div class="terminal-dot" aria-hidden="true"></div>
+          <div class="terminal-dot" aria-hidden="true"></div>
+        </div>
         <span class="terminal-title">anilix — ~/anime</span>
       </div>
       <div class="terminal-body" id="terminal-body">
-        <video class="terminal-video" id="demo-video" autoplay muted playsinline loop>
+        <video class="terminal-video" id="demo-video" autoplay muted playsinline loop preload="metadata" aria-label="Anilix terminal demo showing anime search and streaming">
           <source src="assets/demo.mp4" type="video/mp4">
         </video>
       </div>
     </div>
-    <div class="terminal-glow"></div>
+    <div class="terminal-glow" aria-hidden="true"></div>
   </div>
 </section>
 
 <div class="section-divider"></div>
 
 <!-- ═══ INSTALL ════════════════════════════════════ -->
-<section id="install">
+<section id="install" aria-label="Installation">
   <div class="section-header reveal">
     <div class="section-tag">Get Started</div>
     <h2 class="section-title">Install <span>Anilix</span></h2>
+    <p class="section-desc">One command. Works on Linux, macOS, Windows, and Android (Termux).</p>
   </div>
-  <div class="install-blocks">
+  <div class="install-grid">
     <div class="install-block reveal">
-      <h4>Linux / macOS / Termux</h4>
-      <div class="install-cmd">curl -fsSL https://raw.githubusercontent.com/hishantik/anilix/main/install.sh | sh</div>
+      <div class="install-block-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        <h3>Linux / macOS / Termux</h3>
+      </div>
+      <div class="install-cmd-wrap">
+        <code class="install-cmd">curl -fsSL https://raw.githubusercontent.com/hishantik/anilix/main/install.sh | sh</code>
+        <button class="install-copy" aria-label="Copy command" data-cmd="curl -fsSL https://raw.githubusercontent.com/hishantik/anilix/main/install.sh | sh">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        </button>
+      </div>
     </div>
     <div class="install-block reveal">
-      <h4>Windows (PowerShell)</h4>
-      <div class="install-cmd">Invoke-WebRequest -Uri "https://raw.githubusercontent.com/hishantik/anilix/main/install.bat" -OutFile "install.bat"; .\install.bat</div>
+      <div class="install-block-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        <h3>Windows (PowerShell)</h3>
+      </div>
+      <div class="install-cmd-wrap">
+        <code class="install-cmd">Invoke-WebRequest -Uri "https://raw.githubusercontent.com/hishantik/anilix/main/install.bat" -OutFile "install.bat"; .\install.bat</code>
+        <button class="install-copy" aria-label="Copy command" data-cmd='Invoke-WebRequest -Uri "https://raw.githubusercontent.com/hishantik/anilix/main/install.bat" -OutFile "install.bat"; .\install.bat'>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        </button>
+      </div>
     </div>
     <div class="install-block reveal">
-      <h4>Go Install</h4>
-      <div class="install-cmd">go install github.com/hishantik/anilix@latest</div>
+      <div class="install-block-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        <h3>Go Install</h3>
+      </div>
+      <div class="install-cmd-wrap">
+        <code class="install-cmd">go install github.com/hishantik/anilix@latest</code>
+        <button class="install-copy" aria-label="Copy command" data-cmd="go install github.com/hishantik/anilix@latest">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        </button>
+      </div>
     </div>
     <div class="install-block reveal">
-      <h4>Build from Source</h4>
-      <div class="install-cmd">git clone https://github.com/hishantik/anilix && cd anilix && go build -o anilix .</div>
-    </div>
-  </div>
-
-  <div class="section-header reveal" style="margin-top: 4rem;">
-    <div class="section-tag">Recommended</div>
-    <h2 class="section-title">Dependencies</h2>
-  </div>
-
-  <div class="deps-grid">
-    <!-- mpv -->
-    <div class="dep-card reveal">
-      <div class="dep-header">
-        <span class="dep-icon">▶</span>
-        <div>
-          <h4>mpv</h4>
-          <span class="dep-badge dep-required">Required</span>
-        </div>
+      <div class="install-block-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <h3>Build from Source</h3>
       </div>
-      <p class="dep-desc">Video player for stream playback. Default player for Anilix.</p>
-      <div class="dep-platforms">
-        <div class="dep-platform">
-          <span class="dep-platform-label">Windows</span>
-          <div class="install-cmd">winget install mpv</div>
-          <div class="install-cmd">scoop install mpv</div>
-        </div>
-        <div class="dep-platform">
-          <span class="dep-platform-label">macOS</span>
-          <div class="install-cmd">brew install mpv</div>
-        </div>
-        <div class="dep-platform">
-          <span class="dep-platform-label">Linux</span>
-          <div class="install-cmd">sudo apt install mpv</div>
-          <div class="install-cmd">sudo pacman -S mpv</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Ghostty -->
-    <div class="dep-card reveal">
-      <div class="dep-header">
-        <span class="dep-icon">⌘</span>
-        <div>
-          <h4>Ghostty</h4>
-          <span class="dep-badge dep-optional">Optional</span>
-        </div>
-      </div>
-      <p class="dep-desc">GPU-accelerated terminal emulator with true color and ligature support. Best experience for the TUI.</p>
-      <div class="dep-platforms">
-        <div class="dep-platform">
-          <span class="dep-platform-label">Windows</span>
-          <div class="install-cmd">winget install Ghostty.Ghostty</div>
-        </div>
-        <div class="dep-platform">
-          <span class="dep-platform-label">macOS</span>
-          <div class="install-cmd">brew install --cask ghostty</div>
-        </div>
-        <div class="dep-platform">
-          <span class="dep-platform-label">Linux</span>
-          <div class="install-cmd">flatpak install com.mitchellh.ghostty</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ffmpeg -->
-    <div class="dep-card reveal">
-      <div class="dep-header">
-        <span class="dep-icon">⚙</span>
-        <div>
-          <h4>ffmpeg</h4>
-          <span class="dep-badge dep-optional">Optional</span>
-        </div>
-      </div>
-      <p class="dep-desc">Media processing for stream extraction. Required only when building from source.</p>
-      <div class="dep-platforms">
-        <div class="dep-platform">
-          <span class="dep-platform-label">Windows</span>
-          <div class="install-cmd">winget install ffmpeg</div>
-          <div class="install-cmd">scoop install ffmpeg</div>
-        </div>
-        <div class="dep-platform">
-          <span class="dep-platform-label">macOS</span>
-          <div class="install-cmd">brew install ffmpeg</div>
-        </div>
-        <div class="dep-platform">
-          <span class="dep-platform-label">Linux</span>
-          <div class="install-cmd">sudo apt install ffmpeg</div>
-          <div class="install-cmd">sudo pacman -S ffmpeg</div>
-        </div>
+      <div class="install-cmd-wrap">
+        <code class="install-cmd">git clone https://github.com/hishantik/anilix && cd anilix && go build -o anilix .</code>
+        <button class="install-copy" aria-label="Copy command" data-cmd="git clone https://github.com/hishantik/anilix && cd anilix && go build -o anilix .">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        </button>
       </div>
     </div>
   </div>
 </section>
 
+</main>
+
 <!-- ═══ FOOTER ════════════════════════════════════ -->
-<footer>
-  <p>
-    <a href="https://github.com/hishantik/anilix">GitHub</a> ·
-    MIT License ·
-    Built with Go ·
-    Inspired by <a href="https://github.com/pystardust/ani-cli">ani-cli</a>
-  </p>
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="footer-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
+          <line x1="12" y1="22" x2="12" y2="15.5"/>
+          <polyline points="22 8.5 12 15.5 2 8.5"/>
+        </svg>
+        <span>ANILIX</span>
+      </a>
+      <p class="footer-tagline">Terminal anime streaming. Built with Go.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Project</h4>
+        <a href="https://github.com/hishantik/anilix" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/hishantik/anilix/releases" target="_blank" rel="noopener">Releases</a>
+        <a href="https://github.com/hishantik/anilix/issues" target="_blank" rel="noopener">Issues</a>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <a href="https://github.com/hishantik/anilix/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing</a>
+        <a href="https://github.com/pystardust/ani-cli" target="_blank" rel="noopener">ani-cli</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>MIT License &middot; Built with Go &middot; Inspired by <a href="https://github.com/pystardust/ani-cli" target="_blank" rel="noopener">ani-cli</a></p>
+  </div>
 </footer>
 
-</div>
+<!-- ═══ BACK TO TOP ═══════════════════════════════ -->
+<button id="back-to-top" class="back-to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
 
 <!-- ═══════════════════════════════════════════════ -->
 <!-- SCRIPTS -->
 <!-- ═══════════════════════════════════════════════ -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="js/main.js" type="module"></script>
